@@ -123,29 +123,6 @@ void LCD_drawMenu( sMENUSTATE * ms )
 }
 
 /**
-  * @brief	MenuItem构造函数
-  * @param	mi: MenuItem结构体
-  * @param	name: 菜单选项字符串
-  * @param	MAX_ROWS: 单页最大显示量
-  *	@retval 无
-  */
-
-/**
-  * @brief	Menustate构造函数
-  * @param	ms: MenuState结构体
-  * @param	currMenu: 当前显示菜单
-  * @param	MAX_ROWS: 单页最大显示量
-  *	@retval 无
-  */
-void MENUSTATEctor(sMENUSTATE * ms, sMenu * currMenu, uint8_t MAX_ROWS)
-{
-	ms->top = 0;
-	ms->currItem = 0;
-	ms->currMenu =  currMenu;
-	ms->MAX_ROWS = MAX_ROWS;
-}
-
-/**
   * @brief  清除屏幕，用于刷新
   * @param  未确定
   * @retval 无
