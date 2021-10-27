@@ -14,6 +14,10 @@
 
 /****************************************/
 
+/***************配置选项*****************/
+/* 启用宏配置菜单 */
+#define MENU_MARCO_SETTING				1
+/****************************************/
 #define lcdMenu_callFunction(fp) ( ( *fp )( ) )
 
 typedef struct sMENU sMENU;
@@ -49,6 +53,7 @@ typedef struct sMENUSTATE
 } sMENUSTATE;
 
 /**********************************************************************************/
+#if MENU_MARCO_SETTING
 /* 创建菜单选项宏 
  * ItemName 该选项的变量名
  * name		选项名
@@ -66,7 +71,7 @@ const sMENUITEM MI_##ItemName = {name, (Func), (child)}
  * ... 输入需要填入的GMIP(ItemName)
  */
 #define ComMenuItemDef( ArrName,...) \
-const sMENUITEM * MIA_##ArrName[] = {__VA_ARGS__}
+const sMENUITEM * MIA_##ArrName = {__VA_ARGS__}
 
 /* 获取菜单数组名宏 */
 #define ComMenuItem( ArrName )    (CMI_##ArrName)
@@ -90,6 +95,7 @@ sMENUSTATE MS_##name = {0, (MaxRow), 0, (MainMenu)}
 /* 获取菜单状态名的指针宏 */
 #define MenuState(name)    (&MS_##name)
 
+#endif
 /**********************************************************************************/
 void Menu_goBack( sMENUSTATE * ms );
 /**********************************************************************************/
