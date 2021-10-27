@@ -69,7 +69,7 @@ sMENUITEM MI_##ItemName = {#name, (Func), (child)}
  * ... 输入需要填入的GMIP(ItemName)
  */
 #define ComMenuItem( Arrname,...) \
-sMENUITEM * CMI_##Arrname[] = {__VA_ARGS__}
+sMENUITEM * MIA_##Arrname[] = {__VA_ARGS__}
 
 /* 获取菜单数组名宏 */
 #define GetComMenuItem( Arrname )    (CMI_##Arrname)
@@ -82,7 +82,14 @@ sMENUITEM * CMI_##Arrname[] = {__VA_ARGS__}
  * Parent	上级菜单指针
  */
 #define GenerateMenu( MenuName, name, len, Arrname, Parent ) \
-sMENU CM_##MenuName = {#name, (len), (Arrname), 0, 0, (Parent)}
+sMENU M_##MenuName = {#name, (len), (Arrname), 0, 0, (Parent)}
+
+/* 获取菜单名宏 */
+#define GetMenuPtr( MenuName )    (&M_##MenuName)
+
+/* 初始化菜单状态 */
+#define InitMenuState(name, MaxRow, MainMenu)  \
+sMENUSTATE MS_##name = {0, (MaxRow), 0, GetMenuPtr(MainMenu)}
 
 /**********************************************************************************/
 void Menu_goBack( sMENUSTATE * ms );
