@@ -2,7 +2,7 @@
 /** 使用方法
   * 1.使用MenuItemDef(ItemName, name, Func, child)声明全部选项
   * 2.使用ComMenuItemDef(Arrname,...)将同一菜单选项合并成一个数组
-  * 3.使用MenuDef(MenuName, name, len, Arrname, Parent)声明所有菜单
+  * 3.使用MenuDef(MenuName, name, len, ArrName, Parent)声明所有菜单
   * 4.使用InitMenuState(name, MaxRow, MainMenu)初始化菜单状态
   */  
 #ifndef _MENU_H_
@@ -66,11 +66,11 @@ const sMENUITEM MI_##ItemName = {#name, (Func), (child)}
  * Arrname 该菜单数组名
  * ... 输入需要填入的GMIP(ItemName)
  */
-#define ComMenuItemDef( Arrname,...) \
-const sMENUITEM * MIA_##Arrname[] = {__VA_ARGS__}
+#define ComMenuItemDef( ArrName,...) \
+const sMENUITEM * MIA_##ArrName[] = {__VA_ARGS__}
 
 /* 获取菜单数组名宏 */
-#define ComMenuItem( Arrname )    (CMI_##Arrname)
+#define ComMenuItem( ArrName )    (CMI_##ArrName)
 
 /* 封装Menu
  * MenuName 菜单变量名
@@ -79,15 +79,18 @@ const sMENUITEM * MIA_##Arrname[] = {__VA_ARGS__}
  * Arrname	菜单包含选项数组
  * Parent	上级菜单指针
  */
-#define MenuDef( MenuName, name, len, Arrname, Parent ) \
-sMENU M_##MenuName = {#name, (len), (Arrname), 0, 0, (Parent)}
+#define MenuDef( MenuName, name, len, ArrName, Parent ) \
+sMENU M_##MenuName = {#name, (len), (ArrName), 0, 0, (Parent)}
 
-/* 获取菜单名宏 */
+/* 获取菜单名的指针宏 */
 #define Menu( MenuName )    (&M_##MenuName)
 
 /* 初始化菜单状态 */
 #define InitMenuState(name, MaxRow, MainMenu)  \
 sMENUSTATE MS_##name = {0, (MaxRow), 0, (MainMenu)}
+
+/* 获取菜单状态名的指针宏 */
+#define MenuState(name)    (&MS_##name)
 
 /**********************************************************************************/
 void Menu_goBack( sMENUSTATE * ms );
