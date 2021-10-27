@@ -1,4 +1,4 @@
-#include "./Menu/menu.h"
+#include "menu.h"
 
 /**
   * @brief  返回上级菜单
@@ -22,7 +22,11 @@ void Menu_goBack( sMENUSTATE * ms )
   */
 void Menu_select( sMENUSTATE * ms )
 {
-	if( ms->currMenu->menuarr[ ms->currItem ]->child != NULL )
+	if( ms->currMenu->menuarr[ ms->currItem ]->Func_Handler != NULL )
+	{
+		lcdMenu_callFunction( ms->currMenu->menuarr[ ms->currItem ]->Func_Handler );
+	}
+	else if( ms->currMenu->menuarr[ ms->currItem ]->child != NULL )
 	{
 		ms->currMenu->menuarr[ ms->currItem ]->child->last_top = ms->top;
 		ms->currMenu->menuarr[ ms->currItem ]->child->lastCurrItem = ms->currItem;
@@ -30,10 +34,7 @@ void Menu_select( sMENUSTATE * ms )
 		ms->top = 0;
 		ms->currItem = 0;
 	}
-	else if( ms->currMenu->menuarr[ ms->currItem ]->Func_Handler != NULL )
-	{
-		lcdMenu_callFunction( ms->currMenu->menuarr[ ms->currItem ]->Func_Handler );
-	}
+
 }
 
 /**
