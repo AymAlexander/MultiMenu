@@ -1,11 +1,10 @@
 
 /** 使用方法
-  * 1.声明数个全局变量 sMENUITEM,将全部选项都初始化出来(不管是上级菜单还是子菜单)，并赋给数组(每个菜单对应一个数组)
-  * 2.声明数个全局变量 sMENU,赋予对应的sMENUITEM数组，并填写菜单名称
-  * 3.声明全局变量 sMENUSTATE,将MAX_ROWS初始化为需要的值,将第一
-  *   个要显示(sMENU)的菜单赋给currentMenu,其余全部初始化为0
-  */
-  
+  * 1.使用MenuItemDef(ItemName, name, Func, child)声明全部选项
+  * 2.使用ComMenuItemDef(Arrname,...)将同一菜单选项合并成一个数组
+  * 3.使用MenuDef(MenuName, name, len, Arrname, Parent)声明所有菜单
+  * 4.使用InitMenuState(name, MaxRow, MainMenu)初始化菜单状态
+  */  
 #ifndef _MENU_H_
 #define _MENU_H_
 
@@ -57,22 +56,21 @@ typedef struct sMENUSTATE
  * Func		选项功能函数指针
  * child	下级菜单指针
  */
-#define MenuItemCreate( ItemName, name, Func, child) \
-sMENUITEM MI_##ItemName = {#name, (Func), (child)}
+#define MenuItemDef( ItemName, name, Func, child) \
+const sMENUITEM MI_##ItemName = {#name, (Func), (child)}
 
 /* 获取选项变量的指针的宏 */
-#define GMIP( ItemName )    GetMenuItemPtr( ItemName )
-#define GetMenuItemPtr( ItemName )    (&MI_##ItemName)
+#define MenuItem( ItemName )    (&MI_##ItemName)
 
 /* 封装MenuItem数组(单组菜单) 
  * Arrname 该菜单数组名
  * ... 输入需要填入的GMIP(ItemName)
  */
-#define ComMenuItem( Arrname,...) \
-sMENUITEM * MIA_##Arrname[] = {__VA_ARGS__}
+#define ComMenuItemDef( Arrname,...) \
+const sMENUITEM * MIA_##Arrname[] = {__VA_ARGS__}
 
 /* 获取菜单数组名宏 */
-#define GetComMenuItem( Arrname )    (CMI_##Arrname)
+#define ComMenuItem( Arrname )    (CMI_##Arrname)
 
 /* 封装Menu
  * MenuName 菜单变量名
@@ -81,15 +79,15 @@ sMENUITEM * MIA_##Arrname[] = {__VA_ARGS__}
  * Arrname	菜单包含选项数组
  * Parent	上级菜单指针
  */
-#define GenerateMenu( MenuName, name, len, Arrname, Parent ) \
+#define MenuDef( MenuName, name, len, Arrname, Parent ) \
 sMENU M_##MenuName = {#name, (len), (Arrname), 0, 0, (Parent)}
 
 /* 获取菜单名宏 */
-#define GetMenuPtr( MenuName )    (&M_##MenuName)
+#define Menu( MenuName )    (&M_##MenuName)
 
 /* 初始化菜单状态 */
 #define InitMenuState(name, MaxRow, MainMenu)  \
-sMENUSTATE MS_##name = {0, (MaxRow), 0, GetMenuPtr(MainMenu)}
+sMENUSTATE MS_##name = {0, (MaxRow), 0, (MainMenu)}
 
 /**********************************************************************************/
 void Menu_goBack( sMENUSTATE * ms );
