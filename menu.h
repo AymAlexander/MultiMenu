@@ -51,6 +51,40 @@ typedef struct sMENUSTATE
 } sMENUSTATE;
 
 /**********************************************************************************/
+/* 创建菜单选项宏 
+ * ItemName 该选项的变量名
+ * name		选项名
+ * Func		选项功能函数指针
+ * child	下级菜单指针
+ */
+#define MenuItemCreate( ItemName, name, Func, child) \
+sMENUITEM MI_##ItemName = {#name, (Func), (child)}
+
+/* 获取选项变量的指针的宏 */
+#define GMIP( ItemName )    GetMenuItemPtr( ItemName )
+#define GetMenuItemPtr( ItemName )    (&MI_##ItemName)
+
+/* 封装MenuItem数组(单组菜单) 
+ * Arrname 该菜单数组名
+ * ... 输入需要填入的GMIP(ItemName)
+ */
+#define ComMenuItem( Arrname,...) \
+sMENUITEM * CMI_##Arrname[] = {__VA_ARGS__}
+
+/* 获取菜单数组名宏 */
+#define GetComMenuItem( Arrname )    (CMI_##Arrname)
+
+/* 封装Menu
+ * MenuName 菜单变量名
+ * name		菜单标题
+ * len		菜单长度
+ * Arrname	菜单包含选项数组
+ * Parent	上级菜单指针
+ */
+#define GenerateMenu( MenuName, name, len, Arrname, Parent ) \
+sMENU CM_##MenuName = {#name, (len), (Arrname), 0, 0, (Parent)}
+
+/**********************************************************************************/
 void Menu_goBack( sMENUSTATE * ms );
 /**********************************************************************************/
 void Menu_select( sMENUSTATE * ms );
