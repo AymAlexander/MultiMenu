@@ -2,7 +2,7 @@
 /** 使用方法
   * 1.使用MenuItemDef(ItemName, name, Func, child)声明全部选项
   * 2.使用ComMenuItemDef(Arrname,...)将同一菜单选项合并成一个数组
-  * 3.使用MenuDef(MenuName, name, len, ArrName, Parent)声明所有菜单
+  * 3.使用MenuDef(MenuName, name, ArrName, Parent)声明所有菜单
   * 4.使用InitMenuState(name, MaxRow, MainMenu)初始化菜单状态
   */  
 #ifndef _MENU_H_
@@ -24,7 +24,6 @@ typedef struct sMENUSTATE sMENUSTATE;
 typedef struct sMENU
 {
 	char * name;							/* 菜单名 */
-	uint8_t len;							/* 菜单内容总数 */
 	sMENUITEM ** menuarr;					/* 菜单内容(数组) */
 	uint8_t last_top;						/* 上级菜单的顶部是第几位 */
 	uint8_t lastCurrItem;					/* 上级菜单选中的是第几个选项 */
@@ -57,7 +56,7 @@ typedef struct sMENUSTATE
  * child	下级菜单指针
  */
 #define MenuItemDef( ItemName, name, Func, child) \
-const sMENUITEM MI_##ItemName = {#name, (Func), (child)}
+const sMENUITEM MI_##ItemName = {name, (Func), (child)}
 
 /* 获取选项变量的指针的宏 */
 #define MenuItem( ItemName )    (&MI_##ItemName)
@@ -75,12 +74,11 @@ const sMENUITEM * MIA_##ArrName[] = {__VA_ARGS__}
 /* 封装Menu
  * MenuName 菜单变量名
  * name		菜单标题
- * len		菜单长度
  * Arrname	菜单包含选项数组
  * Parent	上级菜单指针
  */
-#define MenuDef( MenuName, name, len, ArrName, Parent ) \
-sMENU M_##MenuName = {#name, (len), (ArrName), 0, 0, (Parent)}
+#define MenuDef( MenuName, name, ArrName, Parent ) \
+sMENU M_##MenuName = {name, (ArrName), 0, 0, (Parent)}
 
 /* 获取菜单名的指针宏 */
 #define Menu( MenuName )    (&M_##MenuName)

@@ -44,6 +44,9 @@ void Menu_select( sMENUSTATE * ms )
   */
 void Menu_goUp( sMENUSTATE * ms )
 {
+	uint8_t len;
+	len = sizeof( ms->currMenu->menuarr ) / 4;
+	
 	if( ms->currItem != 0 )
 	{
 		if( !( ( ms->top == 0 ) & ( ms->currItem == 0 ) ) )
@@ -57,11 +60,11 @@ void Menu_goUp( sMENUSTATE * ms )
 	}
 	else
 	{
-		if ( ms->currMenu->len > ms->MAX_ROWS )
+		if ( len > ms->MAX_ROWS )
 		{
-			ms->top = ( ms->currMenu->len - ms->MAX_ROWS );
+			ms->top = ( len - ms->MAX_ROWS );
 		}
-		ms->currItem = ms->currMenu->len - 1;
+		ms->currItem = len - 1;
 	}
 }
 
@@ -72,9 +75,11 @@ void Menu_goUp( sMENUSTATE * ms )
   */
 void Menu_goDown( sMENUSTATE * ms )
 {
-	if( ms->top != ms->currMenu->len )
+	uint8_t len;
+	len = sizeof( ms->currMenu->menuarr ) / 4;
+	if( ms->top != len )
 	{
-		if( ms->currItem != ms->currMenu->len - 1 )
+		if( ms->currItem != len - 1 )
 		{
 			ms->currItem += 1;
 			if( ms->currItem - ms->top == ms->MAX_ROWS )
@@ -102,14 +107,15 @@ void Menu_goDown( sMENUSTATE * ms )
   */
 void LCD_drawMenu( sMENUSTATE * ms )
 {
-	uint8_t i;
+	uint8_t i, len;
+	len = sizeof( ms->currMenu->menuarr ) / 4;
 	
 	lcdMenu_clearScreen();
 	
 	lcdMenu_printTitle();
 	for( i = ms->top; i < ms->top + ms->MAX_ROWS; i++ )
 	{
-		if( i < ms->currMenu->len )
+		if( i < len )
 		{
 			if ( ms->currItem == i )
 			{

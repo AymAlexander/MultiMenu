@@ -27,16 +27,20 @@ void lcdMenu_printNormal( uint8_t i, uint8_t top, char * name )
 }
 ```
 
+
+
 2. 使用`MenuItemDef(ItemName, name, func, child)`声明所有的选项
 
-`ItemName`是变量名，`name`才是显示的字符串，并且不需要加双引号。`func`是选中后执行的函数的指针，`child`是子菜单的指针
+`ItemName`是变量名，`name`才是显示的字符串，`func`是选中后执行的函数的指针，`child`是子菜单的指针
 
 例子：
 
 ```c
-MenuItemDef(Item1, 选项一, NULL, NULL);
-MenuItemDef(Item2, 选项二, NULL, NULL);
+MenuItemDef(Item1, "选项一", NULL, NULL);
+MenuItemDef(Item2, "选项二", NULL, NULL);
 ```
+
+
 
 3. 使用`ComMenuItemDef(ArrName, ...)`合并相同菜单下的选项
 
@@ -48,15 +52,19 @@ MenuItemDef(Item2, 选项二, NULL, NULL);
 ComMenuItemDef(Arr1, MenuItem(Item1), MenuItem(Item2));
 ```
 
-4. 使用`MenuDef(MenuName, name, len, ArrName, Parent)`声明所有菜单
 
-`MenuName`是菜单变量名，`name`是菜单标题字符串，`len`菜单选项数量，`Parent`上级菜单的指针
+
+4. 使用`MenuDef(MenuName, name, ArrName, Parent)`声明所有菜单
+
+`MenuName`是菜单变量名，`name`是菜单标题字符串，`Parent`上级菜单的指针
 
 例子：
 
 ```c
-MenuDef(Menu1, 主菜单, 2, ComMenuItem(Arr1), NULL);
+MenuDef(Menu1, "主菜单", ComMenuItem(Arr1), NULL);
 ```
+
+
 
 5. 使用`InitMenuState(name, MaxRox, MainMenu)`初始化菜单状态
 
@@ -68,4 +76,6 @@ MenuDef(Menu1, 主菜单, 2, ComMenuItem(Arr1), NULL);
 InitMenuState(MenuState, 5, Menu(Menu1))
 ```
 
-6. 上述都完成后，就可以调用菜单的操作函数使用了！
+
+
+上述都完成后，就可以调用菜单的操作函数使用了！
