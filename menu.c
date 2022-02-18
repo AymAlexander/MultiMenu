@@ -45,7 +45,12 @@ void Menu_select( sMENUSTATE * ms )
 void Menu_goUp( sMENUSTATE * ms )
 {
 	uint8_t len;
-	len = sizeof( ms->currMenu->menuarr ) / 4;
+	while(*ms->currMenu->menuarr)
+	{
+		len++;
+		ms->currMenu->menuarr++;
+	}
+	ms->currMenu->menuarr -= len;
 	
 	if( ms->currItem != 0 )
 	{
@@ -76,7 +81,12 @@ void Menu_goUp( sMENUSTATE * ms )
 void Menu_goDown( sMENUSTATE * ms )
 {
 	uint8_t len;
-	len = sizeof( ms->currMenu->menuarr ) / 4;
+	while(*ms->currMenu->menuarr)
+	{
+		len++;
+		ms->currMenu->menuarr++;
+	}
+	ms->currMenu->menuarr -= len;
 	if( ms->top != len )
 	{
 		if( ms->currItem != len - 1 )
@@ -108,7 +118,12 @@ void Menu_goDown( sMENUSTATE * ms )
 void LCD_drawMenu( sMENUSTATE * ms )
 {
 	uint8_t i, len;
-	len = sizeof( ms->currMenu->menuarr ) / 4;
+	while(*ms->currMenu->menuarr)
+	{
+		len++;
+		ms->currMenu->menuarr++;
+	}
+	ms->currMenu->menuarr -= len;
 	
 	lcdMenu_clearScreen();
 	
